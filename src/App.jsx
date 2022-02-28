@@ -15,6 +15,7 @@ import Home from "./modules/main/views/Home";
 import CategoryList from "./modules/category/views/List";
 import CategoryCreate from "./modules/category/views/Create";
 import CategoryDetail from "./modules/category/views/Detail";
+import CategoryImages from "./modules/category/views/Images";
 
 export const GlobalContext = React.createContext();
 
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/categories" element={<CategoryList />} />
             <Route path="/categories/create" element={<CategoryCreate />} />
             <Route path="/categories/:uid" element={<CategoryDetail />} />
+            <Route path="/categories/:uid/images" element={<CategoryImages />} />
           </Routes>
         </Content>
       </GlobalContext.Provider>

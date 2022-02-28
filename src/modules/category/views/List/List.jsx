@@ -81,7 +81,7 @@ const List = () => {
       </li>
       <li>
         <span>&nbsp;|&nbsp;</span>
-        <Link to={`/categories/${uid}/images`}>Extra</Link>
+        <Link to={`/categories/${uid}/images`}>Images</Link>
       </li>
     </ul>
   );
@@ -114,8 +114,8 @@ const List = () => {
   }
 
   return (
-    <div className="bx--grid bx--grid--full-width bx--grid--no-gutter http_route_list-page">
-      <div className="bx--row http_route_list-page__r1">
+    <div className="bx--grid bx--grid--full-width bx--grid--no-gutter category_list-page">
+      <div className="bx--row category_list-page__r1">
         <div className="bx--col-lg-16">
           <div style={{ marginBottom: "1rem" }}>
             <Link to='/categories/create'>Create</Link>

@@ -16,93 +16,6 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 
 import { GlobalContext } from "../../../../App.jsx";
 
-const GET_PARENT_CATEGORIES_QUERY = gql`
-  query getAllCategories (
-    $limit: Int,
-    $skip: Int,
-    $q: String,
-    $onlyRoots: Boolean
-  ) {
-      getAllCategories (
-          getAllCategoriesInput: {
-              limit: $limit,
-              skip: $skip,
-              q: $q,
-              onlyRoots: $onlyRoots
-          }
-      ) {
-          id
-          uid
-          name
-          children {
-            id
-            uid
-            name
-          }
-      }
-  }
-`;
-
-const GET_CATEGORY_QUERY = gql`
-  query getOneCategory (
-    $uid: String!
-  ) {
-      getCategory (
-        getOneCategoryInput: {
-            uid: $uid
-        }
-      ) {
-          id
-          uid
-          name
-          parent {
-            id
-            uid
-            name
-          }
-      }
-  }
-`;
-
-const UPDATE_CATEGORY_MUTATION = gql`
-  mutation updateCategory (
-    $uid: String!
-    $name: String,
-    $parentUid: String
-  ) {
-      updateCategory(
-        getOneCategoryInput: {
-            uid: $uid
-        },
-        updateCategoryInput: {
-            name: $name,
-            parentUid: $parentUid
-        }
-      ) {
-        id
-        name
-        parent {
-            id
-            name
-        }
-      }
-  }
-`;
-
-const DETELE_CATEGORY_MUTATION = gql`
-  mutation deleteCategory (
-      $uid: String!
-  ) {
-      deleteCategory (
-          getOneCategoryInput: {
-              uid: $uid
-          }
-      ) {
-          id
-      }
-  }
-`;
-
 const getCategoriesItems = (categories = []) => {
   const flattenCategories = categories.reduce((pre, cur) => {
     const { children = [], ...rest } = cur;
@@ -130,6 +43,27 @@ const Detail = () => {
 
   const { uid } = useParams();
 
+  // getting the item for the detail page
+  const GET_CATEGORY_QUERY = gql`
+  query getOneCategory (
+    $uid: String!
+  ) {
+      getCategory (
+        getOneCategoryInput: {
+            uid: $uid
+        }
+      ) {
+          id
+          uid
+          name
+          parent {
+            id
+            uid
+            name
+          }
+      }
+  }
+`;
   const {
     loading: categoryQueryLoading,
     error: categoryQueryError,
@@ -140,8 +74,19 @@ const Detail = () => {
     },
   });
 
+  // define the state
   const [deleting, setDeleting] = useState(false);
 
+  const [name, setName] = useState("");
+  const [invalidName, setInvalidName] = useState(false);
+
+  const [parentUid, setParentUid] = useState("");
+
+  const [message, setMessage] = useState(undefined);
+
+  // check if the user is logged in
+  // if not, redirect to login page
+  // and set the variables to the state
   useEffect(() => {
     if (!user) {
       return navigate("/");
@@ -155,12 +100,33 @@ const Detail = () => {
     }
   }, [categoryQueryData, navigate, uid, user]);
 
-  const [parentUid, setParentUid] = useState("");
-
-  const [name, setName] = useState("");
-  const [invalidName, setInvalidName] = useState(false);
-
-  const [message, setMessage] = useState(undefined);
+  // getting the items that could be used as parents
+  const GET_PARENT_CATEGORIES_QUERY = gql`
+  query getAllCategories (
+    $limit: Int,
+    $skip: Int,
+    $q: String,
+    $onlyRoots: Boolean
+  ) {
+      getAllCategories (
+          getAllCategoriesInput: {
+              limit: $limit,
+              skip: $skip,
+              q: $q,
+              onlyRoots: $onlyRoots
+          }
+      ) {
+          id
+          uid
+          name
+          children {
+            id
+            uid
+            name
+          }
+      }
+  }
+`;
 
   const {
     loading: categoriesQueryLoading,
@@ -172,10 +138,37 @@ const Detail = () => {
     },
   });
 
+  // format the items to be used in the select
   let parentCategories = [];
   if (categoriesQueryData) {
     parentCategories = getCategoriesItems(categoriesQueryData.getAllCategories);
   }
+
+  // updating the current item
+  const UPDATE_CATEGORY_MUTATION = gql`
+  mutation updateCategory (
+    $uid: String!
+    $name: String,
+    $parentUid: String
+  ) {
+      updateCategory(
+        getOneCategoryInput: {
+            uid: $uid
+        },
+        updateCategoryInput: {
+            name: $name,
+            parentUid: $parentUid
+        }
+      ) {
+        id
+        name
+        parent {
+            id
+            name
+        }
+      }
+  }
+`;
 
   const [
     updateCategory,
@@ -200,6 +193,21 @@ const Detail = () => {
     setMessage("successfully updated category");
   };
 
+  // deleting the current item
+  const DETELE_CATEGORY_MUTATION = gql`
+  mutation deleteCategory (
+      $uid: String!
+  ) {
+      deleteCategory (
+          getOneCategoryInput: {
+              uid: $uid
+          }
+      ) {
+          id
+      }
+  }
+`;
+
   const [
     deleteCategory,
     {
@@ -220,8 +228,8 @@ const Detail = () => {
   }
 
   return (
-    <div className="bx--grid bx--grid--full-width bx--grid--no-gutter http_route_create-page">
-      <div className="bx--row http_route_create-page__r1">
+    <div className="bx--grid bx--grid--full-width bx--grid--no-gutter category_detail-page">
+      <div className="bx--row category_detail-page__r1">
         <div className="bx--offset-lg-5 bx--col-lg-6 bx--col-md-8 bx--col-sm-4">
           <span>Handle a Category</span>
 

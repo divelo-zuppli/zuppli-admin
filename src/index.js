@@ -30,6 +30,14 @@ const client = new ApolloClient({
     });
   },
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: "no-cache",
+    },
+    query: {
+      fetchPolicy: "no-cache",
+    },
+  }
 });
 
 ReactDOM.render(
