@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   StructuredListWrapper,
@@ -10,7 +10,7 @@ import {
   Loading,
 } from "carbon-components-react";
 import { ImageReference24 } from "@carbon/icons-react";
-import { gql, useQuery, } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
 
 import { GlobalContext } from "../../../../App.jsx";
 
@@ -76,19 +76,63 @@ const Images = () => {
     },
   });
 
+  // define the state
+  const [images, setImages] = useState([]);
+
+  const [shouldClosePopUp, setShouldClosePopUp] = useState(false);
+
   // check if the user is logged in
   // if not, redirect to login page
   useEffect(() => {
     if (!user) {
       return navigate("/");
     }
-  }, [user, navigate]);
 
+    if (categoryQueryData) {
+      setImages(getImagesItems(categoryQueryData?.getCategory?.categoryAttachments));
+    }
+  }, [user, navigate, categoryQueryData]);
 
-  let images = [];
-  if (categoryQueryData) {
-    images = getImagesItems(categoryQueryData?.getCategory?.categoryAttachments);
-  }
+  // delete the image
+  const DELETE_CATEGORY_IMAGE_MUTATION = gql`
+    mutation deleteCategoryImage (
+      $categoryUid: String!
+      $attachmentUid: String!
+    ) {
+        deleteCategoryImage (
+            deleteCategoryImageInput: {
+                categoryUid: $categoryUid,
+                attachmentUid: $attachmentUid
+            }
+        ) {
+            uid
+        }
+    }
+  `;
+
+  const [
+    deleteCategoryImage, 
+    {
+      // data: deleteCategoryImageData,
+      // loading: deletingCategoryImageLoading,
+      error: deletingCategoryImageError,
+    }
+  ] = useMutation(DELETE_CATEGORY_IMAGE_MUTATION);
+
+  const deleteImage = async (attachmentUid) => {
+    await deleteCategoryImage({
+      variables: {
+        categoryUid: uid,
+        attachmentUid,
+      },
+    });
+
+    setImages(images.filter(image => image.attachmentUid !== attachmentUid));
+
+    setShouldClosePopUp(true);
+
+    setShouldClosePopUp(false);
+  };
 
   return (
     <div className="bx--grid bx--grid--full-width bx--grid--no-gutter category_images-page">
@@ -140,11 +184,17 @@ const Images = () => {
                         modalHeading="Image"
                         modalLabel="Label"
                         danger={true}
-                        shouldCloseAfterSubmit={true}
+                        shouldCloseAfterSubmit={shouldClosePopUp}
                         preventCloseOnClickOutside={true}
-                        handleSubmit={() => { return true; }}
+                        handleSubmit={() => deleteImage(image.attachmentUid)}
                         primaryButtonText="Delete"
                       >
+                        {
+                          deletingCategoryImageError &&
+                          <div>
+                            {deletingCategoryImageError.message}
+                          </div>
+                        }
                         <img
                           src={image.url}
                           alt="Carbon illustration"
