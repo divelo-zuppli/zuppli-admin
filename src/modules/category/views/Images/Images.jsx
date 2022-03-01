@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   StructuredListWrapper,
   StructuredListHead,
@@ -136,8 +136,11 @@ const Images = () => {
 
   return (
     <div className="bx--grid bx--grid--full-width bx--grid--no-gutter category_images-page">
-      <div className="bx--row category_list-page__r1">
+      <div className="bx--row category_images-page__r1">
         <div className="bx--col-lg-16">
+          <div style={{ marginBottom: "1rem" }}>
+            <Link to={`/categories/${uid}/images/create`}>Create</Link>
+          </div>
           {
             categoryQueryLoading &&
             <div style={{ width: "100%" }}>
@@ -157,7 +160,7 @@ const Images = () => {
                   tabIndex={0}
                 >
                   <StructuredListCell head>
-                  Main Image
+                  Main image
                   </StructuredListCell>
                   <StructuredListCell head>
                   Version

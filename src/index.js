@@ -7,6 +7,7 @@ import "core-js/modules/es.object.values";
 import React from "react";
 import ReactDOM from "react-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { createUploadLink } from "apollo-upload-client"
 
 import { BrowserRouter as Router } from "react-router-dom";
 import "./index.scss";
@@ -19,7 +20,10 @@ import App from "./App.jsx";
 import reportWebVitals from "./reportWebVitals.js";
 
 const client = new ApolloClient({   
-  uri: environment.GRAPHQL_ENDPOINT,
+  // uri: environment.GRAPHQL_ENDPOINT,
+  link: createUploadLink({
+    uri: environment.GRAPHQL_ENDPOINT,
+  }),
   request: async operation => {
     const token = await getIdTokenFromCurrentUser();
     console.log("token", token);
