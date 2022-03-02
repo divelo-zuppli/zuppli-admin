@@ -47,7 +47,7 @@ const List = () => {
       </li>
       <li>
         <span>&nbsp;|&nbsp;</span>
-        <Link to={`/categories/${uid}/images`}>Images</Link>
+        <Link to={`/references/${uid}/images`}>Images</Link>
       </li>
     </ul>
   );

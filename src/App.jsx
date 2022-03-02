@@ -22,6 +22,7 @@ import CreateCategoryImage from "./modules/category/views/CreateImage";
 import ListReferences from "./modules/reference/views/List";
 import CreateReference from "./modules/reference/views/Create";
 import ReferenceDetail from "./modules/reference/views/Detail";
+import ReferenceImages from "./modules/reference/views/Images";
 
 export const GlobalContext = React.createContext();
 
@@ -53,6 +54,7 @@ const App = () => {
             <Route path="/references" element={<ListReferences />} />
             <Route path="/references/create" element={<CreateReference />} />
             <Route path="/references/:uid" element={<ReferenceDetail />} />
+            <Route path="/references/:uid/images" element={<ReferenceImages />} />
           </Routes>
         </Content>
       </GlobalContext.Provider>
