@@ -8,6 +8,7 @@ import {
   StructuredListBody,
   ModalWrapper,
   Loading,
+  InlineNotification,
 } from "carbon-components-react";
 import { ImageReference24 } from "@carbon/icons-react";
 import { gql, useQuery, useMutation } from "@apollo/client";
@@ -29,6 +30,8 @@ const getImagesItems = (images = []) => {
       }
     ];
   }, []);
+
+  console.log("flattenImages", flattenImages);
 
   return flattenImages;
 };
@@ -56,6 +59,7 @@ const Images = () => {
               version
               attachment {
                   id
+                  uid
                   cloudId
                   type
                   url
@@ -92,35 +96,39 @@ const Images = () => {
   }, [user, navigate, referenceQueryData]);
 
   // delete the image
-  const DELETE_CATEGORY_IMAGE_MUTATION = gql`
-    mutation deleteCategoryImage (
-      $categoryUid: String!
-      $attachmentUid: String!
+  const DELETE_REFERENCE_IMAGE_MUTATION = gql`
+    mutation deleteReferenceImage (
+        $referenceUid: String!
+        $attachmentUid: String!
     ) {
-        deleteCategoryImage (
-            deleteCategoryImageInput: {
-                categoryUid: $categoryUid,
-                attachmentUid: $attachmentUid
+        deleteReferenceImage (
+            deleteReferenceImageInput: {
+              referenceUid: $referenceUid,
+              attachmentUid: $attachmentUid 
             }
         ) {
-            uid
+            id,
+            uid,
+            sku,
+            name,
+            description
         }
     }
   `;
 
   const [
-    deleteCategoryImage, 
+    deleteReferenceImage, 
     {
-      // data: deleteCategoryImageData,
-      // loading: deletingCategoryImageLoading,
-      error: deletingCategoryImageError,
+      // data: deleteReferenceImageData,
+      // loading: deletingReferenceImageLoading,
+      error: deletingReferenceImageError,
     }
-  ] = useMutation(DELETE_CATEGORY_IMAGE_MUTATION);
+  ] = useMutation(DELETE_REFERENCE_IMAGE_MUTATION);
 
   const deleteImage = async (attachmentUid) => {
-    await deleteCategoryImage({
+    await deleteReferenceImage({
       variables: {
-        categoryUid: uid,
+        referenceUid: uid,
         attachmentUid,
       },
     });
@@ -191,10 +199,13 @@ const Images = () => {
                         primaryButtonText="Delete"
                       >
                         {
-                          deletingCategoryImageError &&
-                          <div>
-                            {deletingCategoryImageError.message}
-                          </div>
+                          deletingReferenceImageError &&
+                          <InlineNotification
+                            kind="error"
+                            iconDescription="close button"
+                            subtitle={<span>{deletingReferenceImageError.message}</span>}
+                            title="Uups!"
+                          />
                         }
                         <img
                           src={image.url}
