@@ -10,6 +10,7 @@ import {
   SelectSkeleton,
   ButtonSkeleton,
   TextArea,
+  NumberInput,
 } from "carbon-components-react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 
@@ -35,6 +36,12 @@ const Create = () => {
 
   const [name, setName] = useState("");
   const [invalidName, setInvalidName] = useState(false);
+
+  const [packaging, setPackaging] = useState("");
+
+  const [measurementUnit, setMeasurementUnit] = useState("");
+
+  const [measurementValue, setMeasurementValue] = useState(undefined)
 
   const [description, setDescription] = useState("");
 
@@ -78,20 +85,22 @@ const Create = () => {
       $name: String!,
       $description: String
       $categoryUid: String!
+      $packaging: String
+      $measurementUnit: String
+      $measurementValue: Float
     ) {
         createReference (
             createReferenceInput: {
                 sku: $sku,
                 name: $name,
                 description: $description,
-                categoryUid: $categoryUid
+                categoryUid: $categoryUid,
+                packaging: $packaging,
+                measurementUnit: $measurementUnit,
+                measurementValue: $measurementValue
             }
         ) {
-            id,
-            uid,
-            sku,
-            name,
-            description,
+            uid
         }
     }
   `;
@@ -132,6 +141,9 @@ const Create = () => {
         sku,
         name,
         description,
+        packaging,
+        measurementUnit,
+        measurementValue,
       }
     });
 
@@ -205,6 +217,76 @@ const Create = () => {
                   invalid={invalidName}
                   invalidText="A valid value is required"
                   onChange={(event) => setName(event.target.value)}
+                />
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <Select
+                  defaultValue=""
+                  id="packaging-select"
+                  invalid={invalidCategoryUid}
+                  invalidText="A valid value is required"
+                  labelText="Packaging"
+                  onChange={(event) => setPackaging(event.target.value)}
+                >
+                  <SelectItem
+                    text="Select..."
+                    value=""
+                  />
+                  <SelectItem
+                    text="Unidad"
+                    value="Unidad"
+                  />
+                  <SelectItem
+                    text="Display"
+                    value="Display"
+                  />
+                  <SelectItem
+                    text="Caja"
+                    value="Caja"
+                  />
+                </Select>
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <Select
+                  defaultValue=""
+                  id="measurementUnit-select"
+                  invalid={invalidCategoryUid}
+                  invalidText="A valid value is required"
+                  labelText="Measurement Unit"
+                  onChange={(event) => setMeasurementUnit(event.target.value)}
+                >
+                  <SelectItem
+                    text="Select..."
+                    value=""
+                  />
+                  <SelectItem
+                    text="Kilogramo"
+                    value="kg"
+                  />
+                  <SelectItem
+                    text="Gramo"
+                    value="gr"
+                  />
+                  <SelectItem
+                    text="Mililitro"
+                    value="ml"
+                  />
+                  <SelectItem
+                    text="Litro"
+                    value="lt"
+                  />
+                </Select>
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <NumberInput
+                  id="measurementValue-text"
+                  labelText="Measurement Value"
+                  invalid={invalidName}
+                  invalidText="A valid value is required"
+                  onChange={(event) => setMeasurementValue(event.target.value)}
                 />
               </div>
 

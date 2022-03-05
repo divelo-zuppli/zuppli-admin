@@ -145,7 +145,7 @@ const Images = () => {
       <div className="bx--row category_images-page__r1">
         <div className="bx--col-lg-16">
           <div style={{ marginBottom: "1rem" }}>
-            <Link to={`/categories/${uid}/images/create`}>Create</Link>
+            <Link to={`/references/${uid}/images/create`}>Create</Link>
           </div>
           {
             referenceQueryLoading &&
