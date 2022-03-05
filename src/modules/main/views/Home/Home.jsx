@@ -36,7 +36,7 @@ const Home = () => {
               <a href={zuppliTechWikiLink} target="_blank" rel="noreferrer">Getting started</a>
             </BreadcrumbItem>
           </Breadcrumb>
-          <h1 className="landing-page__heading">Configure &amp; secure with Authorizer</h1>
+          <h1 className="landing-page__heading">Manage &amp; view with Zuppli Admin</h1>
         </div>
       </div>
 
@@ -48,13 +48,12 @@ const Home = () => {
                 <div className="bx--row landing-page__tab-content">
                   <div className="bx--col-md-4 bx--col-lg-7">
                     <h2 className="landing-page__subheading">
-                      What is Authorizer?
+                      What is Zuppli Admin?
                     </h2>
                     <p className="landing-page__p">
-                      Authorizer is a project that allows you to secure your
-                      API resources through a simple configutarion process.
-                      Our API works our product works hand in hand with the
-                      Ambassador API gateway.
+                      Zuppli Admin is a project that allows you to manage and
+                      view your Zuppli data and resources in a simple and 
+                      intuitive way.
                     </p>
                     <div style={{ marginTop: "1rem" }}>
                       <Button href={zuppliTechWikiLink} target="_blank">Learn more</Button>
