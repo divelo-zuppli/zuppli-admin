@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Form,
   Button,
@@ -154,6 +154,10 @@ const Create = () => {
     <div className="bx--grid bx--grid--full-width bx--grid--no-gutter category_create-page">
       <div className="bx--row category_create-page__r1">
         <div className="bx--offset-lg-5 bx--col-lg-6 bx--col-md-8 bx--col-sm-4">
+          <div style={{ marginBottom: "1rem" }}>
+            <Link to="/references">Back</Link>
+          </div>
+
           <span>Create a Reference</span>
 
           {

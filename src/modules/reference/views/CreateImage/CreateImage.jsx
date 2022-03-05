@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import {
   Form,
@@ -93,6 +93,10 @@ const CreateImage = () => {
     <div className="bx--grid bx--grid--full-width bx--grid--no-gutter reference_image_create-page">
       <div className="bx--row reference_image_create-page__r1">
         <div className="bx--offset-lg-5 bx--col-lg-6 bx--col-md-8 bx--col-sm-4">
+          <div style={{ marginBottom: "1rem" }}>
+            <Link to={`/references/${uid}/images`}>Back</Link>
+          </div>
+
           <span>Create a Reference image</span>
 
           <Form onSubmit={handleCreateSubmit}>
