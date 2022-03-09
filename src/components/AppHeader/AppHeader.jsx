@@ -56,7 +56,7 @@ const AppHeader = () => {
               <HeaderMenu aria-label="Admin's web screens" menuLinkName="Screens">
                 <HeaderMenuItem element={Link} to="/categories">Categories</HeaderMenuItem>
                 <HeaderMenuItem element={Link} to="/references">References</HeaderMenuItem>
-                <HeaderMenuItem href="#">Users</HeaderMenuItem>
+                <HeaderMenuItem element={Link} to="/users">Users</HeaderMenuItem>
                 <HeaderMenuItem href="#">Roles</HeaderMenuItem>
               </HeaderMenu>
             </HeaderNavigation>
@@ -72,7 +72,7 @@ const AppHeader = () => {
                 <HeaderSideNavItems>
                   <HeaderMenuItem element={Link} to="/categories">Categories</HeaderMenuItem>
                   <HeaderMenuItem element={Link} to="/references">References</HeaderMenuItem>
-                  <HeaderMenuItem href="#">Users</HeaderMenuItem>
+                  <HeaderMenuItem element={Link} to="/users">Users</HeaderMenuItem>
                   <HeaderMenuItem href="#">Roles</HeaderMenuItem>
                 </HeaderSideNavItems>
               </SideNavItems>

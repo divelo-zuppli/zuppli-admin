@@ -25,6 +25,9 @@ import ReferenceDetail from "./modules/reference/views/Detail";
 import ReferenceImages from "./modules/reference/views/Images";
 import CreateReferenceImage from "./modules/reference/views/CreateImage";
 
+import ListUsers from "./modules/user/views/List";
+import CreateUser from "./modules/user/views/Create";
+
 export const GlobalContext = React.createContext();
 
 const App = () => {
@@ -57,6 +60,9 @@ const App = () => {
             <Route path="/references/:uid" element={<ReferenceDetail />} />
             <Route path="/references/:uid/images" element={<ReferenceImages />} />
             <Route path="/references/:uid/images/create" element={<CreateReferenceImage />} />
+
+            <Route path="/users" element={<ListUsers />} />
+            <Route path="/users/create" element={<CreateUser />} />
           </Routes>
         </Content>
       </GlobalContext.Provider>

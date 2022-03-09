@@ -96,17 +96,17 @@ const Home = () => {
 
       <InfoSection heading="The Principles" className="landing-page__r3">
         <InfoCard
-          heading="Authorizer is Simple"
+          heading="Admin is Simple"
           body="This isn't rocket science, this project has been made (and we still) with simplicity in mind, it's just composed by a set of tables related in a simple way."
           icon={<PersonFavorite32 />}
         />
         <InfoCard
-          heading="Authorizer is Modular"
+          heading="Admin is Modular"
           body="Authorizer's modularity ensures flexibility in execution, this allows to increase the adaptability in order to be sync with the business needs."
           icon={<Application32 />}
         />
         <InfoCard
-          heading="Authorizer is Efficient"
+          heading="Admin is Efficient"
           body="As our main effort, we focus on the performance to be efficient, so day by day we gonna work to keep improving the response times at Authorizer project."
           icon={<Globe32 />}
         />
