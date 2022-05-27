@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   Form,
   Button,
@@ -12,6 +12,7 @@ import {
   ButtonSkeleton,
   NotificationActionButton,
   TextArea,
+  NumberInput,
 } from "carbon-components-react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 
@@ -59,6 +60,9 @@ const Detail = () => {
             sku
             name
             description
+            packaging
+            measurementUnit
+            measurementValue
             category {
                 uid
             }
@@ -88,9 +92,15 @@ const Detail = () => {
   const [name, setName] = useState("");
   const [invalidName, setInvalidName] = useState(false);
 
+  const [packaging, setPackaging] = useState("");
+
+  const [measurementUnit, setMeasurementUnit] = useState("");
+
+  const [measurementValue, setMeasurementValue] = useState(undefined)
+
   const [description, setDescription] = useState("");
 
-  const [message, setMessage] = useState(undefined);
+  const [message, setMessage] = useState("");
 
   // check if the user is logged in
   // if not, redirect to login page
@@ -101,12 +111,16 @@ const Detail = () => {
     }
 
     if (referenceQueryData) {
-      const { getReference: { sku, name, description, category } } = referenceQueryData;
+      const { getReference: { sku, name, description, category, packaging, measurementUnit, measurementValue } } = referenceQueryData;
 
       setCategoryUid(category ? category.uid : undefined);
       setSku(sku);
       setName(name);
       setDescription(description);
+      setPackaging(packaging);
+      setMeasurementUnit(measurementUnit);
+      setMeasurementValue(measurementValue);
+
     }
   }, [referenceQueryData, navigate, uid, user]);
 
@@ -151,6 +165,9 @@ const Detail = () => {
       $sku: String,
       $name: String,
       $description: String
+      $packaging: String,
+      $measurementUnit: String,
+      $measurementValue: Float,
       $categoryUid: String
     ) {
         updateReference(
@@ -162,6 +179,9 @@ const Detail = () => {
                 name: $name,
                 description: $description,
                 categoryUid: $categoryUid
+                packaging: $packaging,
+                measurementUnit: $measurementUnit,
+                measurementValue: $measurementValue
             }
         ) {
             id
@@ -205,6 +225,9 @@ const Detail = () => {
         name,
         description,
         categoryUid,
+        packaging,
+        measurementUnit,
+        measurementValue: measurementValue ? parseFloat(measurementValue) : undefined,
       }
     })
 
@@ -249,6 +272,10 @@ const Detail = () => {
     <div className="bx--grid bx--grid--full-width bx--grid--no-gutter category_detail-page">
       <div className="bx--row category_detail-page__r1">
         <div className="bx--offset-lg-5 bx--col-lg-6 bx--col-md-8 bx--col-sm-4">
+          <div style={{ marginBottom: "1rem" }}>
+            <Link to="/references">Back</Link>
+          </div>
+
           <span>Handle a Reference</span>
 
           {
@@ -325,6 +352,79 @@ const Detail = () => {
                       value={name}
                     />
                 }
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <Select
+                  defaultValue=""
+                  id="packaging-select"
+                  invalid={invalidCategoryUid}
+                  invalidText="A valid value is required"
+                  labelText="Packaging"
+                  onChange={(event) => setPackaging(event.target.value)}
+                  value={packaging}
+                >
+                  <SelectItem
+                    text="Select..."
+                    value=""
+                  />
+                  <SelectItem
+                    text="Unidad"
+                    value="Unidad"
+                  />
+                  <SelectItem
+                    text="Display"
+                    value="Display"
+                  />
+                  <SelectItem
+                    text="Caja"
+                    value="Caja"
+                  />
+                </Select>
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <Select
+                  defaultValue=""
+                  id="measurementUnit-select"
+                  invalid={invalidCategoryUid}
+                  invalidText="A valid value is required"
+                  labelText="Measurement Unit"
+                  onChange={(event) => setMeasurementUnit(event.target.value)}
+                  value={measurementUnit}
+                >
+                  <SelectItem
+                    text="Select..."
+                    value=""
+                  />
+                  <SelectItem
+                    text="Kilogramo"
+                    value="kg"
+                  />
+                  <SelectItem
+                    text="Gramo"
+                    value="gr"
+                  />
+                  <SelectItem
+                    text="Mililitro"
+                    value="ml"
+                  />
+                  <SelectItem
+                    text="Litro"
+                    value="lt"
+                  />
+                </Select>
+              </div>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <NumberInput
+                  id="measurementValue-text"
+                  label="Measurement Value"
+                  invalid={invalidName}
+                  invalidText="A valid value is required"
+                  onChange={(event) => setMeasurementValue(event.target.value)}
+                  value={measurementValue}
+                />
               </div>
 
               <div style={{ marginBottom: "1rem" }}>
