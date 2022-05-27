@@ -143,7 +143,7 @@ const Create = () => {
         description,
         packaging,
         measurementUnit,
-        measurementValue,
+        measurementValue: measurementValue ? parseFloat(measurementValue) : undefined,
       }
     });
 

@@ -31,8 +31,6 @@ const getImagesItems = (images = []) => {
     ];
   }, []);
 
-  console.log("flattenImages", flattenImages);
-
   return flattenImages;
 };
 
@@ -68,6 +66,7 @@ const Images = () => {
         }
     }
   `;
+
   const {
     loading: referenceQueryLoading,
     // error: referenceQueryError,
@@ -80,8 +79,8 @@ const Images = () => {
 
   // define the state
   const [images, setImages] = useState([]);
-
   const [shouldClosePopUp, setShouldClosePopUp] = useState(false);
+  const [deletingImage, setDeletingImage] = useState(false);
 
   // check if the user is logged in
   // if not, redirect to login page
@@ -126,6 +125,8 @@ const Images = () => {
   ] = useMutation(DELETE_REFERENCE_IMAGE_MUTATION);
 
   const deleteImage = async (attachmentUid) => {
+    setDeletingImage(true);
+
     await deleteReferenceImage({
       variables: {
         referenceUid: uid,
@@ -138,6 +139,8 @@ const Images = () => {
     setShouldClosePopUp(true);
 
     setShouldClosePopUp(false);
+
+    setDeletingImage(false);
   };
 
   return (
@@ -145,6 +148,8 @@ const Images = () => {
       <div className="bx--row category_images-page__r1">
         <div className="bx--col-lg-16">
           <div style={{ marginBottom: "1rem" }}>
+            <Link to={"/references"}>Back</Link>
+            <span>&nbsp;|&nbsp;</span>
             <Link to={`/references/${uid}/images/create`}>Create image</Link>
           </div>
           {
@@ -197,6 +202,7 @@ const Images = () => {
                         preventCloseOnClickOutside={true}
                         handleSubmit={() => deleteImage(image.attachmentUid)}
                         primaryButtonText="Delete"
+                        primaryButtonDisabled={deletingImage}
                       >
                         {
                           deletingReferenceImageError &&

@@ -40,7 +40,7 @@ const CreateImage = () => {
   const UPLOAD_REFERENCE_IMAGE_MUTATION = gql`
     mutation uploadReferenceImage (
       $referenceUid: String!
-      $version: String
+      $version: String!
       $main: Boolean
       $file: Upload!
     ) {
