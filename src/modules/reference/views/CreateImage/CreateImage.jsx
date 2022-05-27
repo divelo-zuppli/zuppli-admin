@@ -114,10 +114,6 @@ const CreateImage = () => {
                   value=""
                 />
                 <SelectItem
-                  text="Thumbnail"
-                  value="thumbnail"
-                />
-                <SelectItem
                   text="Small"
                   value="small"
                 />
