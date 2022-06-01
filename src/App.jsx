@@ -28,6 +28,8 @@ import CreateReferenceImage from "./modules/reference/views/CreateImage";
 import ListUsers from "./modules/user/views/List";
 import CreateUser from "./modules/user/views/Create";
 
+import ListProducts from "./modules/product/views/List";
+
 export const GlobalContext = React.createContext();
 
 const App = () => {
@@ -63,6 +65,8 @@ const App = () => {
 
             <Route path="/users" element={<ListUsers />} />
             <Route path="/users/create" element={<CreateUser />} />
+
+            <Route path="/products" element={<ListProducts />} />
           </Routes>
         </Content>
       </GlobalContext.Provider>
