@@ -13,6 +13,9 @@ import Login from "./modules/auth/views/Login";
 import OTP from "./modules/auth/views/OTP";
 import Home from "./modules/main/views/Home";
 
+import ListUsers from "./modules/user/views/List";
+import CreateUser from "./modules/user/views/Create";
+
 import ListCategories from "./modules/category/views/List";
 import CreateCategory from "./modules/category/views/Create";
 import CategoryDetail from "./modules/category/views/Detail";
@@ -25,10 +28,9 @@ import ReferenceDetail from "./modules/reference/views/Detail";
 import ReferenceImages from "./modules/reference/views/Images";
 import CreateReferenceImage from "./modules/reference/views/CreateImage";
 
-import ListUsers from "./modules/user/views/List";
-import CreateUser from "./modules/user/views/Create";
-
 import ListProducts from "./modules/product/views/List";
+import CreateProduct from "./modules/product/views/Create";
+import ProductDetail from "./modules/product/views/Detail";
 
 export const GlobalContext = React.createContext();
 
@@ -51,6 +53,9 @@ const App = () => {
             <Route path="/otp" element={<OTP />} />
             <Route path="/home" element={<Home user={user} />} />
 
+            <Route path="/users" element={<ListUsers />} />
+            <Route path="/users/create" element={<CreateUser />} />
+
             <Route path="/categories" element={<ListCategories />} />
             <Route path="/categories/create" element={<CreateCategory />} />
             <Route path="/categories/:uid" element={<CategoryDetail />} />
@@ -63,10 +68,9 @@ const App = () => {
             <Route path="/references/:uid/images" element={<ReferenceImages />} />
             <Route path="/references/:uid/images/create" element={<CreateReferenceImage />} />
 
-            <Route path="/users" element={<ListUsers />} />
-            <Route path="/users/create" element={<CreateUser />} />
-
             <Route path="/products" element={<ListProducts />} />
+            <Route path="/products/create" element={<CreateProduct />} />
+            <Route path="/products/:uid" element={<ProductDetail />} />
           </Routes>
         </Content>
       </GlobalContext.Provider>

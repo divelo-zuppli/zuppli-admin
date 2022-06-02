@@ -17,6 +17,10 @@ const headers = [
     header: "ID",
   },
   {
+    key: "referenceName",
+    header: "Reference",
+  },
+  {
     key: "costPrice",
     header: "Cost",
   },
@@ -29,8 +33,8 @@ const headers = [
     header: "Sale",
   },
   {
-    key: "referenceName",
-    header: "Reference",
+    key: "stock",
+    header: "Stock",
   },
   {
     key: "actions",
@@ -48,10 +52,6 @@ const List = () => {
     <ul style={{ display: "flex" }}>
       <li>
         <Link to={`/products/${uid}`}>Detail</Link>
-      </li>
-      <li>
-        <span>&nbsp;|&nbsp;</span>
-        <Link to={`/products/${uid}/images`}>Images</Link>
       </li>
     </ul>
   );
@@ -90,6 +90,7 @@ const List = () => {
             costPrice
             sellPrice
             salePrice
+            stock
             reference {
                 id
                 uid
@@ -116,7 +117,7 @@ const List = () => {
       <div className="bx--row reference_list-page__r1">
         <div className="bx--col-lg-16">
           <div style={{ marginBottom: "1rem" }}>
-            <Link to='/prodcuts/create'>Create</Link>
+            <Link to='/products/create'>Create</Link>
           </div>
           {
             productsQueryError &&
