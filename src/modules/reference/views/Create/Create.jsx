@@ -87,7 +87,7 @@ const Create = () => {
       $categoryUid: String!
       $packaging: String
       $measurementUnit: String
-      $measurementValue: Float
+      $measurementValue: Int
     ) {
         createReference (
             createReferenceInput: {
@@ -143,7 +143,7 @@ const Create = () => {
         description,
         packaging,
         measurementUnit,
-        measurementValue: measurementValue ? parseFloat(measurementValue) : undefined,
+        measurementValue: measurementValue ? parseInt(measurementValue, 10) : undefined,
       }
     });
 
@@ -287,7 +287,7 @@ const Create = () => {
               <div style={{ marginBottom: "1rem" }}>
                 <NumberInput
                   id="measurementValue-text"
-                  labelText="Measurement Value"
+                  label="Measurement Value"
                   invalid={invalidName}
                   invalidText="A valid value is required"
                   onChange={(event) => setMeasurementValue(event.target.value)}

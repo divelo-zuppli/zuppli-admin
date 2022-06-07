@@ -167,7 +167,7 @@ const Detail = () => {
       $description: String
       $packaging: String,
       $measurementUnit: String,
-      $measurementValue: Float,
+      $measurementValue: Int,
       $categoryUid: String
     ) {
         updateReference(
@@ -227,7 +227,7 @@ const Detail = () => {
         categoryUid,
         packaging,
         measurementUnit,
-        measurementValue: measurementValue ? parseFloat(measurementValue) : undefined,
+        measurementValue: measurementValue ? parseInt(measurementValue, 10) : undefined,
       }
     })
 
